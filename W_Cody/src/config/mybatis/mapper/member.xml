@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!-- 로그인 -->
+	<select id="login" parameterType="java.util.HashMap" resultType="vo.MemberVO">
+		select * from member where id=#{id} and pwd=#{pwd}
+	</select>
+	
+	<!-- 회원가입 아이디 중복체크 -->
+	<select id="id_check" parameterType="java.lang.String" resultType="vo.MemberVO">
+		select * from member where id=#{id}
+	</select>
+	
+	<!-- 회원가입 별명 중복체크 -->
+	<select id="nickname_check" parameterType="java.lang.String" resultType="vo.MemberVO">
+		select * from member where nickname=#{nickname}
+	</select>
+
+	<!-- 회원가입 이메일 중복체크&아이디찾기-->
+	<select id="email_check" parameterType="java.lang.String" resultType="vo.MemberVO">
+		select * from member where email=#{email}
+	</select>
+	
+	<!-- 회원가입 -->
+	<select id="join_insert" parameterType="vo.MemberVO" resultType="int">
+		insert into member values(seq_member_idx.nextval,#{id},
+														 #{pwd},
+														 #{nickname},
+														 #{email},
+														 #{birth_year},
+														 #{birth_month},
+														 #{birth_day},
+														 #{sido},
+														 #{gugun},
+														 #{gender},
+														 #{coldhot},
+														 #{ip},
+														 #{nx},
+														 #{ny},
+														 sysdate)
+	</select>
+	
+	<!-- 비번찾기 -->
+	<select id="find_pwd" parameterType="java.util.HashMap" resultType="vo.MemberVO">
+		select * from member where id=#{id} and email=#{email}		
+	</select>
+	<!-- 리스트 -->
+   <select id="list" resultType="vo.MemberVO">
+      select * from member order by idx desc
+   </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

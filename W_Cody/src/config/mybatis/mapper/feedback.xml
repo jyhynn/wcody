@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fb"> 
+
+	<!-- 평가 전체 목록 -->
+	<select id="fb_list" resultType="vo.FeedbackVO">
+		select * from feedback order by idx desc
+	</select>
+	
+	<!-- 평가 전체 목록 -낮은별점순 -->
+	<select id="fb_list_low" resultType="vo.FeedbackVO">
+		select * from feedback order by sati asc, idx desc
+	</select>
+	
+	<!-- 평가 전체 목록 -높은별점순 -->
+	<select id="fb_list_high" resultType="vo.FeedbackVO">
+		select * from feedback order by sati desc, idx desc
+	</select>
+	
+	<!-- 평가 전체 목록 기타의견있는것만 -->
+	<select id="fb_list_sugg" resultType="vo.FeedbackVO">
+		SELECT * FROM feedback WHERE NOT fcontent is NULL order by idx desc
+	</select>		
+
+	<!-- 평가 등록  -->
+	<select id="fb_insert" parameterType="vo.FeedbackVO">
+		insert into feedback values(seq_fb_idx.nextval,#{id},#{nickname},
+									#{sati},#{fcontent},sysdate,#{ip})
+	</select>
+	
+	<!-- 별점 평균 -->
+	<select id="fb_avg_star" resultType="float">
+		SELECT AVG(sati) FROM feedback
+	</select>
+
+<!-- 
+	F&Q 게시판 글 하나 보기
+ 	<select id="fnq_one" resultType="vo.FnqVO" parameterType="int">
+		select * from fnq where idx=#{idx}
+	</select>
+	
+
+	F&Q 수정
+	<select id="update_fnq" parameterType="java.util.HashMap">
+		update fnq set title=#{title}, content=#{content} where idx=#{idx}
+	</select> 
+	
+	F&Q 삭제
+	<select id="del_fnq" parameterType="int">
+		DELETE FROM fnq WHERE idx=#{idx}
+	</select>
+	
+
+	
+	F&Q 페이지별 게시물 조회
+	<select id="fnq_list_condition" parameterType="java.util.Map" resultType="vo.FnqVO">
+		select * from ( select rank() over(order by idx desc) no,
+		b.* from(select * from fnq) b ) where no between #{start} and #{end}
+	</select>
+	
+	F&Q 전체 게시물 수 조회 
+	<select id="fnq_count" resultType="int" >
+		select count(*) from fnq
+	</select> 
+	
+	조회수 증가
+	<select id="fnq_update_click" parameterType="int" >
+		update fnq set click = click + 1 where idx=#{idx}
+	</select>	 -->
+</mapper>
+

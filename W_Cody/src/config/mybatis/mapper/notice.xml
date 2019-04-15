@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice"> 
+
+	<!-- notice 게시판 전체 목록 -->
+	<select id="notice_list" resultType="vo.NoticeVO">
+		select * from notice order by idx desc
+	</select>
+
+	<!-- F&Q 게시판 글 하나 보기 -->
+ 	<select id="notice_one" resultType="vo.NoticeVO" parameterType="int">
+		select * from notice where idx=#{idx}
+	</select>
+	
+	<!-- F&Q 등록  -->
+	<select id="insert_notice" parameterType="vo.NoticeVO">
+		insert into notice values(seq_notice_idx.nextval,#{id},#{title},#{content},sysdate,#{ip},0)
+	</select>
+
+	<!-- F&Q 수정 -->
+	<select id="update_notice" parameterType="java.util.HashMap">
+		update notice set title=#{title}, content=#{content} where idx=#{idx}
+	</select> 
+	
+	<!-- F&Q 삭제 -->
+	<select id="del_notice" parameterType="int">
+		DELETE FROM notice WHERE idx=#{idx}
+	</select>
+	
+	<!-- F&Q 페이지별 게시물 조회 -->
+	<select id="notice_list_condition" parameterType="java.util.Map" resultType="vo.NoticeVO">
+		select * from ( select rank() over(order by idx desc) no,
+		b.* from(select * from notice) b ) where no between #{start} and #{end}
+	</select>
+	
+	<!-- F&Q 전체 게시물 수 조회 --> 
+	<select id="notice_count" resultType="int" >
+		select count(*) from notice
+	</select> 
+	
+	<!-- 조회수 증가 -->
+	<select id="notice_update_click" parameterType="int" >
+		update notice set click = click + 1 where idx=#{idx}
+	</select>	
+</mapper>
+

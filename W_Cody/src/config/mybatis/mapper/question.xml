@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="que">
+
+	<!-- Q&A 게시판 전체 목록 -->
+	<select id="que_list" resultType="vo.QueVO">
+		select * from que order by ref desc, step asc
+	</select>
+
+	<!-- Q&A 게시판 글 하나 보기 -->
+	<select id="que_one" resultType="vo.QueVO" parameterType="int">
+		select * from que where idx=#{idx}
+	</select>
+	
+	<!-- Q&A 문의 등록 -->
+	<select id="insert_que" parameterType="vo.QueVO">
+		insert into que values(seq_que_idx.nextval,
+								#{title}, #{content}, #{nickname}, sysdate, #{ip}, 
+								0, seq_que_idx.currVal, 0, 0, #{id})
+	</select>
+
+	<!-- Q&A 문의 수정 -->
+	<select id="update_que" parameterType="java.util.HashMap">
+		update que set title=#{title}, content=#{content} where idx=#{idx}
+	</select>
+
+	<!-- Q&A 문의 삭제 -->
+	<select id="del_que" parameterType="int">
+		DELETE FROM que WHERE idx=#{idx}
+	</select>
+	
+	<!-- 문의 답변등록 -->
+	<select id="insert_que_answer">
+		insert into que values(seq_que_idx.nextval,
+								#{title}, #{content}, #{nickname}, sysdate, #{ip}, 
+								0, #{ref}, 1, 1, #{id})
+	</select>
+	
+	<!-- Q&A 페이지별 게시물 조회 -->
+	<select id="que_list_condition" parameterType="java.util.Map" resultType="vo.QueVO">
+		select * from ( select rank() over(order by ref desc, step asc) no,
+		b.* from(select * from que) b ) where no between #{start} and #{end}
+	</select>
+	
+	<!-- Q&A 전체 게시물 수 조회 -->
+	<select id="que_count" resultType="int" >
+		select count(*) from que
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<select id="que_update_click" parameterType="int" >
+		update que set click = click + 1 where idx=#{idx}
+	</select>	
+</mapper>
+

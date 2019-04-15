@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="rev"> 
+
+	<!-- 코디자랑 게시판 전체 목록 -->
+	<select id="rev_list" resultType="vo.ReviewVO">
+		select * from review order by idx desc
+	</select>
+
+	<!-- 코디자랑 등록  -->
+	<select id="rev_insert" parameterType="vo.ReviewVO">
+		insert into review values(seq_review_idx.nextval,
+									#{id},#{nickname},#{title},#{content},
+									#{filename},sysdate,0,0,seq_review_idx.currval,0,0,#{ip})
+	</select>
+
+	<!-- F&Q 게시판 글 하나 보기 -->
+ 	<select id="rev_one" resultType="vo.ReviewVO" parameterType="int">
+		select * from review where idx=#{idx}
+	</select>
+	
+	<!-- 코디자랑 댓글 등록  -->
+	<select id="insert_comment" parameterType="vo.ReviewVO">
+		insert into review values(seq_review_idx.nextval,
+									#{id},#{nickname},#{title},#{content},
+									null,sysdate,0,0,#{ref},1,1,#{ip})
+	</select>
+
+	<!-- 좋아요 반영하기 -->
+	<select id="update_like" parameterType="int" >
+		update review set likee = likee + 1 where idx=#{idx}
+	</select>
+
+	<!-- 조회수 증가 -->
+	<select id="rev_update_click" parameterType="int" >
+		update review set click = click + 1 where idx=#{idx}
+	</select>
+	
+	<!-- 좋아요 가장 높은 게시물 select -->
+	<select id="rev_like" resultType="vo.ReviewVO">
+		SELECT * FROM review where likee=(select MAX( likee ) from review)
+	</select>
+
+ 	<!-- 코디자랑 수정 -->
+	<select id="update_rev" parameterType="java.util.HashMap">
+		update review set title=#{title}, content=#{content} where idx=#{idx}
+	</select> 
+	
+	<!-- 코디자랑 삭제 -->
+	<select id= "del_rev" parameterType="int">
+		DELETE FROM review WHERE idx=#{idx}
+	</select>
+	
+
+<!--	
+	F&Q 페이지별 게시물 조회
+	<select id="fnq_list_condition" parameterType="java.util.Map" resultType="vo.FnqVO">
+		select * from ( select rank() over(order by idx desc) no,
+		b.* from(select * from fnq) b ) where no between #{start} and #{end}
+	</select>
+	
+	F&Q 전체 게시물 수 조회 
+	<select id="fnq_count" resultType="int" >
+		select count(*) from fnq
+	</select> 
+	
+		 -->
+</mapper>
+
