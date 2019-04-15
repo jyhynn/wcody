@@ -1,0 +1,22 @@
+@charset "UTF-8";
+		*{margin:0;padding:0;}
+		.header{width:100%; height:70px; background: #49C3FD; color:white; 
+		font-size:30px; text-align: center; padding-top: 25px;}
+		input{font-size: 20px;}
+		.next {width: 300px; height:20px; background-color: #49C3FD;
+		  color:white; font-size:20px; text-align:center;
+		  top:530px; margin:50px auto; padding:10px;
+		  line-height: 1em; border-radius:0.5em; -moz-border-radius: 0.5em;
+		  -webkit-border-radius: 0.5em;}
+		  a{text-decoration:none; font-size: 10px; color:black; }
+		  a:hover{text-decoration: underline;}
+		  table{margin:50px auto;}
+		  #d{text-align: center;}
+		  th{width:100px; padding:5px 0;}
+		  td{width:250px;}
+		  input{font-size: 15px;width:230px; height:25px;}
+		  .frame2 {width: 300px; height:20px; background-color: #49C3FD;
+		  color:white; font-size:20px; text-align:center;
+		  top:530px; margin:50px auto; padding:10px;
+		  line-height: 1em; border-radius:0.5em; -moz-border-radius: 0.5em;
+		  -webkit-border-radius: 0.5em;}

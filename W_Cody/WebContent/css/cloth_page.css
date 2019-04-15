@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+#list_box input{
+	width: 80px;
+	height: 120px;
+}
+
+div div input{
+	width: 80px;
+	height: 45px;
+}

@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+#main_box{ width : 100%;}
+#photo_box{width:90%; height:auto; border:1px solid blue;
+			padding:10px; margin:auto;
+			overflow:auto;	/* 스크롤 */}
+
+.photo_type{width:300px; height:400px; border:1px solid red;
+			float:left; margin:10px;}
+			
+.title{white-space:nowrap; overflow:hidden; text-overflow: ellipsis;}
+
+.photo_type img{display:block; margin:auto; width:98%; height:150px; border:1px solid red;}
+
+
+
+			
+			
